@@ -4,7 +4,7 @@ RSpec.describe Rails::WebP::Converter do
   let(:input_path) { File.join('spec', 'fixtures', 'test.jpg') }
 
   before do
-    File.delete(output_path) if File.exists?(output_path)
+    File.delete(output_path) if File.exist?(output_path)
     # Dir.delete(File.join('spec/fixtures/public'))
   end
 
@@ -13,7 +13,7 @@ RSpec.describe Rails::WebP::Converter do
 
     subject { described_class.convert_to_webp(input_path, output_path) }
 
-    it { is_expected_block.to change { File.exists?(output_path) }.from(false).to(true) }
+    it { is_expected_block.to change { File.exist?(output_path) }.from(false).to(true) }
   end
 
   describe '#process' do
@@ -48,6 +48,6 @@ RSpec.describe Rails::WebP::Converter do
 
     subject { described_class.process(input_path, data, context, application) }
 
-    it { is_expected_block.to change { File.exists?(output_path) }.from(false).to(true) }
+    it { is_expected_block.to change { File.exist?(output_path) }.from(false).to(true) }
   end
 end

@@ -29,7 +29,7 @@ module Rails
           webp_file = webp_file_name(data, digest)
           output_path = Pathname.new(File.join(app.root, 'public', prefix, webp_file))
           if WebP.force || !webp_file_exists?(digest, output_path)
-            FileUtils.mkdir_p(output_path.dirname) unless Dir.exists?(output_path.dirname)
+            FileUtils.mkdir_p(output_path.dirname) unless Dir.exist?(output_path.dirname)
             # TODO: check app.assets.gzip and act accordingly
             convert_to_webp(input_path, output_path)
             logger&.info "Writing #{output_path}"
@@ -56,7 +56,7 @@ module Rails
         end
 
         def webp_file_exists?(digest, output_path)
-          File.exists?(output_path) && digest == output_path.to_s.split('-').last.split('.').first
+          File.exist?(output_path) && digest == output_path.to_s.split('-').last.split('.').first
         end
 
         def logger
