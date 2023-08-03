@@ -25,7 +25,7 @@ module Rails
           return data if excluded_dir?(input_path)
           @context = context
           prefix = app.config.assets.prefix
-          digest = data_digest(data)
+          digest = data_digest(data, app.config.assets.version)
           webp_file = webp_file_name(data, digest)
           output_path = Pathname.new(File.join(app.root, 'public', prefix, webp_file))
           if WebP.force || !webp_file_exists?(digest, output_path)
@@ -39,8 +39,10 @@ module Rails
 
         private
 
-        def data_digest(data)
-          "-#{context.environment.digest_class.new.update(data).to_s}"
+        def data_digest(data, version)
+          digest = context.environment.digest(data)
+
+          "-#{context.environment.digest_class.new.update(version.to_s + digest).to_s}"
         end
 
         def excluded_dir?(path)
